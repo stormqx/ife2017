@@ -65,16 +65,7 @@
      * 返回一个排序后的数组
      */
     function sortAqiData(data) {
-        var sorted = false;
-        for(var i=0, length=data.length; sorted==false && i<length; i++) {
-            sorted = true;
-            for(var j=1; j<length-i; j++) {
-                if(+data[j-1][1] < +data[j][1]) {
-                    sorted = false;
-                    [data[j-1], data[j]] = [data[j], data[j-1]];
-                }
-            }
-        }
+        data.sort((a,b) => (b[1] - a[1]));
         return data;
     }
 
@@ -84,15 +75,14 @@
      * 格式见ul中的注释的部分
      */
     function render(data) {
-        var resort = document.getElementById('resort');
-        var child = resort.querySelectorAll('li');
-        child.forEach( (node) => {
-            resort.removeChild(node);
+        var List = document.getElementById('resort');
+        var newList = [];
+        data.forEach( (item, index) => {
+            let str = '<li>第'+ chineseNo(index) + '名:'+ item[0] + '空气质量: <b>' + item[1] +'</b></li>';
+            newList.push(str);
         });
 
-        data.forEach( (item, index) => {
-            resort.innerHTML += '<li>第'+ chineseNo(index) + '名:'+ item[0] + '空气质量: <b>' + item[1] +'</b></li>'
-        });
+        List.innerHTML = newList.join('');
     }
 
     function chineseNo(no) {
